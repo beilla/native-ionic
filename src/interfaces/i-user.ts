@@ -1,4 +1,4 @@
-export interface IUser {
+/* export interface IUser {
   id?: number;
   name: string;
   avatar: string;
@@ -8,9 +8,21 @@ export interface IUser {
   lat?: number;
   lng?: number;
   me?: boolean;
+} */
+
+export interface IUser{
+  id?:number,
+  name:string,
+  email:string,
+  password:string,
+  image:string,
+  lat:number,
+  lng:number,
+  id_Facebook?:string,
+  id_Google?:string
 }
 
-export interface ResponseUsers {
+/* export interface ResponseUsers {
   users: IUser[];
   ok?: boolean;
   error?: string;
@@ -28,3 +40,4 @@ export interface ResponseUser {
   errors?: string[];
   profile?: IUser;
 }
+ */

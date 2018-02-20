@@ -16,12 +16,12 @@ import { IUser } from '../../interfaces/i-user';
   templateUrl: 'login.html',
 })
 export class LoginPage {
-
+  isLogged = false;
   user: IUser={
     name: '',
     email: '',
     password: '',
-    avatar: '',
+    image: '',
     lat: 38,
     lng: 0
   };
@@ -31,7 +31,11 @@ export class LoginPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
-
+    this.authService.isLogged()
+      .subscribe((ok) => {
+        if(ok){
+          this.navCtrl.setRoot('EventListPage')}
+        });
   }
 
   login() {
@@ -52,4 +56,7 @@ export class LoginPage {
     alert.present();
   }
 
+  register() {
+    this.navCtrl.push('RegisterPage');
+  }
 }
