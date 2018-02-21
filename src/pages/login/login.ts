@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, AlertController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { IUser } from '../../interfaces/i-user';
+import { Geolocation } from '@ionic-native/geolocation';
 
 /**
  * Generated class for the LoginPage page.
@@ -27,7 +28,7 @@ export class LoginPage {
   };
 
   constructor(public navCtrl: NavController, public authService: AuthProvider,
-              public alertCtrl: AlertController) {}
+              public alertCtrl: AlertController, private geolocation: Geolocation) {}
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
@@ -36,6 +37,17 @@ export class LoginPage {
         if(ok){
           this.navCtrl.setRoot('EventListPage')}
         });
+  }
+
+  ionViewWillLoad() {
+    this.geolocation.getCurrentPosition().then((resp) => {
+      this.user.lat = resp.coords.latitude;
+      this.user.lng = resp.coords.longitude;
+      // console.log(this.user.lat,this.user.lng);
+    }).catch((error) => {
+       console.log('Error getting location', error);
+    });
+
   }
 
   login() {
