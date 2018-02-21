@@ -12,6 +12,7 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/fromPromise';
 import { IResponse } from '../../interfaces/response';
 import { Storage } from '@ionic/storage';
+import { Observer } from 'rxjs/Observer';
 
 /*
   Generated class for the AuthProvider provider.
@@ -59,26 +60,24 @@ export class AuthProvider {
 
 
   isLogged(): Observable<boolean> {
-    return Observable.create(observer => {
-      this.storage.get('token').then(() => {
-        return this.http
-          .get(Constants.SERVER + 'auth/token')
-          .catch((resp: HttpErrorResponse) => {
-            return Observable.throw(
-              'Error in the token!' +
-              `. Server returned code ${resp.status}, message was: ${resp.message}`
-            );
-          })
-          .map((resp: IResponse) => {
-            //console.log(resp);
-            if (resp.error) {
+    return Observable.create((observer: Observer<any>) => {
+
+      this.storage.get('token').then(token => {
+        this.http.get(Constants.SERVER + 'auth/token').
+          subscribe((resp: IResponse) => {
+            if (!resp.error) {
+              observer.next(true);
+              observer.complete();
+            } else {
               observer.next(false);
+              observer.complete();
             }
-            this.logged = true;
-            observer.next(true);
-          });
-      }).catch(() => {
-        observer.next(false);
+          },
+            error => {
+              observer.next(false);
+              observer.complete();
+            }
+          );
       });
     });
   }

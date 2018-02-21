@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IUser } from '../../interfaces/i-user';
+import { AuthProvider } from '../../providers/auth/auth';
 
 /**
  * Generated class for the RegisterPage page.
@@ -14,12 +16,36 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'register.html',
 })
 export class RegisterPage {
+  cameraImage: any;
+  user: IUser ={
+    name: '',
+    email: '',
+    password: '',
+    image: '',
+    lat: 38,
+    lng: 0
+  };
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private authService: AuthProvider,
+    private alertCtrl: AlertController) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad RegisterPage');
   }
 
+  register() {
+    this.authService.register(this.user).subscribe(
+      response => this.navCtrl.setRoot('EventListPage'),
+      (error) => this.showErrorLogin(error));
+  }
+
+  private showErrorLogin(error) {
+    let alert = this.alertCtrl.create({
+      title: 'Login error',
+      subTitle: error,
+      buttons: ['Ok']
+    });
+    alert.present();
+  }
 }
