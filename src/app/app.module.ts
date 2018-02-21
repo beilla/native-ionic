@@ -11,6 +11,8 @@ import { IonicStorageModule } from '@ionic/storage';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from '../interceptors/auth.interceptor';
 import { Geolocation } from '@ionic-native/geolocation';
+import { EventProvider } from '../providers/event/event';
+import { UserProvider } from '../providers/user/user';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import { Geolocation } from '@ionic-native/geolocation';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthProvider,
-    Geolocation
+    Geolocation,
+    EventProvider,
+    UserProvider
   ]
 })
 export class AppModule {}
