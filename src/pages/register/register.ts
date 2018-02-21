@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angu
 import { IUser } from '../../interfaces/i-user';
 import { AuthProvider } from '../../providers/auth/auth';
 import { Geolocation } from '@ionic-native/geolocation';
+import { Camera, CameraOptions } from '@ionic-native/camera';
 
 /**
  * Generated class for the RegisterPage page.
@@ -29,7 +30,7 @@ export class RegisterPage {
   };
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private authService: AuthProvider,
-    private alertCtrl: AlertController, private geolocation: Geolocation) {
+    private alertCtrl: AlertController, private geolocation: Geolocation, private camera: Camera) {
   }
 
   ionViewDidLoad() {
@@ -69,5 +70,45 @@ export class RegisterPage {
       buttons: ['Ok']
     });
     alert.present();
+  }
+
+  takePhoto() {
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE
+    }
+
+    this.getPicture(options);
+
+  }
+
+  pickFromGallery() {
+    const options: CameraOptions = {
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+      targetWidth: 640,
+      targetHeight: 640,
+      destinationType: this.camera.DestinationType.DATA_URL
+    }
+
+    this.getPicture(options);
+  }
+
+  private getPicture(options: CameraOptions) {
+    this.camera.getPicture(options).then((imageData) => {
+      this.user.image = 'data:image/jpeg;base64,' + imageData;
+      this.alertCtrl.create({
+        title: 'Success',
+        subTitle: 'Take picture ok',
+        buttons: ['Ok']
+      });
+    }).catch( error => {
+      this.alertCtrl.create({
+        title: 'Error',
+        subTitle: error,
+        buttons: ['Ok']
+      });
+    });
   }
 }

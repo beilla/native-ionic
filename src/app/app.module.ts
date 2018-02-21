@@ -13,16 +13,17 @@ import { AuthInterceptor } from '../interceptors/auth.interceptor';
 import { Geolocation } from '@ionic-native/geolocation';
 import { EventProvider } from '../providers/event/event';
 import { UserProvider } from '../providers/user/user';
+import { Camera } from '@ionic-native/camera';
 
 @NgModule({
   declarations: [
-    MyApp
+    MyApp,
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
     IonicStorageModule.forRoot(),
-    HttpClientModule,
+    HttpClientModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -40,7 +41,8 @@ import { UserProvider } from '../providers/user/user';
     AuthProvider,
     Geolocation,
     EventProvider,
-    UserProvider
+    UserProvider,
+    Camera
   ]
 })
 export class AppModule {}

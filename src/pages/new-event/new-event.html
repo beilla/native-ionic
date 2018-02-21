@@ -41,7 +41,7 @@
 
         <ion-item>
           <h2>Picture</h2>
-          <button ion-button icon-left large (click)="presentActionSheet()">
+          <button ion-button icon-left large color="secondary" (click)="takePhoto()">
             <ion-icon name="camera"></ion-icon>Take picture</button>
         </ion-item>
 
@@ -52,7 +52,15 @@
 
         <ion-item>
             <ion-label floating>Address</ion-label>
-            <ion-input type="text" [(ngModel)]="event.address"></ion-input>
+            <ion-input type="text" [(ngModel)]="event.address" name="address"
+            aeGmapsAutocomplete (placeChanged)="changePosition($event)"></ion-input>
+          </ion-item>
+
+          <ion-item>
+          <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+              <agm-marker [latitude]="lat" [longitude]="lng">
+              </agm-marker>
+            </agm-map>
           </ion-item>
 
         <ion-item>
