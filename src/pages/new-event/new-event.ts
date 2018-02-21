@@ -29,9 +29,9 @@ export class NewEventPage {
     lng: 0
   }
 
+  lat = 38.4039418;
+  lng = -0.5288701;
   zoom = 17;
-  lat=38;
-  lng=0;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private eventService: EventProvider, private alertCtrl: AlertController,

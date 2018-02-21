@@ -25,7 +25,7 @@
 
         <ion-item>
             <ion-label>Date</ion-label>
-            <ion-datetime displayFormat="DDDD MMMM YYYY" min="2018" max="2030" [(ngModel)]="myDate">
+            <ion-datetime displayFormat="DD MMMM YYYY" min="2018" max="2030" [(ngModel)]="event.date" name="date">
             </ion-datetime>
           </ion-item>
 
@@ -41,7 +41,7 @@
 
         <ion-item>
           <h2>Picture</h2>
-          <button ion-button icon-left large color="secondary" (click)="takePhoto()">
+          <button ion-button icon-left large color="secondary" (click)="pickFromGallery()">
             <ion-icon name="camera"></ion-icon>Take picture</button>
         </ion-item>
 

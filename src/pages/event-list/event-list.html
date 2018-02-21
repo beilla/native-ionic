@@ -17,5 +17,26 @@
 
 
 <ion-content padding>
-
+    <ion-refresher (ionRefresh)="refreshItems($event)">
+        <ion-refresher-content pullingText="Pull to refresh" refreshingText="Refreshing...">
+        </ion-refresher-content>
+      </ion-refresher>
+      <button ion-button block (click)="newEvent()">New event</button>
+      <ion-card *ngFor="let event of events" (click)="showEventDetails(event)">
+        <img [src]="event.image"/>
+        <ion-card-content>
+          <ion-card-title>
+           {{event.title}}
+            </ion-card-title>
+          <p>
+            {{event.description}}
+          </p>
+        </ion-card-content>
+        <ion-item>
+          <ion-avatar item-start>
+            <img [src]="event.creatorData.avatar">
+          </ion-avatar>
+          <h2>{{event.creatorData.name}}</h2>
+        </ion-item>
+      </ion-card>
 </ion-content>

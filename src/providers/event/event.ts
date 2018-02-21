@@ -33,4 +33,39 @@ export class EventProvider {
         return true;
       });
   }
+
+  getEvents(): Observable<IEvent[]> {
+    return this.http
+      .get(Constants.SERVER + 'events')
+      .catch((resp: HttpErrorResponse) =>
+        Observable.throw(
+          'Error getting events!' +
+          `. Server returned code ${resp.status}, message was: ${resp.message}`
+        )
+      )
+      .map((resp: IResponse) => {
+        return resp.result.map((event: IEvent) => {
+          event.image = Constants.imageUrlEvent+ `${event.image}`;
+          event.creatorData.image = Constants.imageUrlUser+`${event.creatorData.image}`;
+          return event;
+        });
+      });
+  }
+
+  getEvent(id: number): Observable<IEvent> {
+    return this.http
+      .get(Constants.SERVER + 'events' + `/${id}`)
+      .catch((resp: HttpErrorResponse) =>
+        Observable.throw(
+          'Error getting events!' +
+          `. Server returned code ${resp.status}, message was: ${resp.message}`
+        )
+      )
+      .map((resp: IResponse) => {
+        resp.result.image =  Constants.imageUrlEvent+`${resp.result.image}`;
+        resp.result.creatorData.image = Constants.imageUrlUser+`${resp.result.creatorData.image}`;
+        return resp.result;
+      });
+  }
+
 }

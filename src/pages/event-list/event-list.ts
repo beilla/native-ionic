@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Refresher } from 'ionic-angular';
+import { EventProvider } from '../../providers/event/event';
+import { IEvent } from '../../interfaces/i-event';
 
 /**
  * Generated class for the EventListPage page.
@@ -14,12 +16,37 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'event-list.html',
 })
 export class EventListPage {
+  events: IEvent[];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+    private eventService: EventProvider) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad EventListPage');
   }
 
+
+  ionViewDidEnter() {
+    this.getEvents();
+  }
+
+  refreshItems(refresher: Refresher) {
+    this.getEvents();
+    refresher.complete();
+  }
+
+  newEvent() {
+    this.navCtrl.push('NewEventPage');
+  }
+
+    getEvents() {
+    this.eventService.getEvents().subscribe( response => {
+      this.events = response;
+    });
+  }
+
+  /* showEventDetails(event) {
+    this.navCtrl.push('EventDetailPage', event);
+  } */
 }
