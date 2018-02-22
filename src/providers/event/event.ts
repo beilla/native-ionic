@@ -4,6 +4,7 @@ import { IEvent } from '../../interfaces/i-event';
 import { Observable } from 'rxjs/Observable';
 import { Constants } from '../../constants';
 import { IResponse } from '../../interfaces/response';
+import { IUser } from '../../interfaces/i-user';
 
 /*
   Generated class for the EventProvider provider.
@@ -44,11 +45,15 @@ export class EventProvider {
         )
       )
       .map((resp: IResponse) => {
-        return resp.result.map((event: IEvent) => {
+         resp.result.map((event: IEvent) => {
           event.image = Constants.imageUrlEvent+ `${event.image}`;
           event.creatorData.image = Constants.imageUrlUser+`${event.creatorData.image}`;
-          return event;
+          event.lat = +event.lat;
+          event.lng = +event.lng;
+          event.creatorData.lat = +event.creatorData.lat;
+          event.creatorData.lng = +event.creatorData.lng;
         });
+        return resp.result;
       });
   }
 
@@ -65,6 +70,22 @@ export class EventProvider {
         resp.result.image =  Constants.imageUrlEvent+`${resp.result.image}`;
         resp.result.creatorData.image = Constants.imageUrlUser+`${resp.result.creatorData.image}`;
         return resp.result;
+      });
+  }
+
+  getAttendsEventUser(id: number): Observable<IUser[]> {
+    return this.http.get(Constants.SERVER + "events/attend/" + id)
+      .catch((error: HttpErrorResponse) => Observable.throw(`Error trying to get attends events. Server returned ${error.message}`))
+      .map((resp: IResponse) => {
+        if (!resp.error) {
+          resp.result.forEach((user: any) => {
+            // user.image = Environment.imageUrlUser + user.image;
+            user.userData.image = Constants.imageUrlUser + user.userData.image;
+
+          });
+          return resp.result;
+        }
+        throw resp.errorMessage;
       });
   }
 

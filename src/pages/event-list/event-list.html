@@ -22,19 +22,19 @@
         </ion-refresher-content>
       </ion-refresher>
       <button ion-button block (click)="newEvent()">New event</button>
-      <ion-card *ngFor="let event of events" (click)="showEventDetails(event)">
-        <img [src]="event.image"/>
-        <ion-card-content>
-          <ion-card-title>
+      <ion-card *ngFor="let event of events">
+        <img [src]="event.image" (tap)="getDetails(event)"/>
+        <ion-card-content (tap)="getDetails()">
+          <ion-card-title text-center>
            {{event.title}}
             </ion-card-title>
-          <p>
+          <p text-center>
             {{event.description}}
           </p>
         </ion-card-content>
-        <ion-item>
-          <ion-avatar item-start>
-            <img [src]="event.creatorData.avatar">
+        <ion-item (tap)="getUser(event.creatorData)">
+          <ion-avatar item-start >
+            <img [src]="event.creatorData.image">
           </ion-avatar>
           <h2>{{event.creatorData.name}}</h2>
         </ion-item>

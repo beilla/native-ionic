@@ -35,10 +35,21 @@
             <ion-input type="password2" [(ngModel)]="user.password2"></ion-input>
           </ion-item>
 
-        <ion-item>
-          <h2>Picture</h2>
-          <button ion-button icon-left large (click)="takePhoto()"><ion-icon name="camera"></ion-icon>Take picture</button>
-        </ion-item>
+        <ion-col>
+            <ion-item>
+                <h2>Picture</h2>
+                <button ion-button icon-left large color="primary" (click)="takePhoto()">
+                  <ion-icon name="camera"></ion-icon>Take picture</button>
+              </ion-item>
+        </ion-col>
+
+        <ion-col>
+            <ion-item>
+                <h2>Picture</h2>
+                <button ion-button large color="secondary" (click)="pickFromGallery()">
+                  <ion-icon name="camera"></ion-icon>Pick picture</button>
+              </ion-item>
+        </ion-col>
 
         <ion-item>
           <h2>Show image</h2>

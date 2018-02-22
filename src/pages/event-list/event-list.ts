@@ -46,7 +46,7 @@ export class EventListPage {
     });
   }
 
-  /* showEventDetails(event) {
-    this.navCtrl.push('EventDetailPage', event);
-  } */
+  getDetails(event) {
+    this.navCtrl.push('EventDetailsPage', event);
+  }
 }
