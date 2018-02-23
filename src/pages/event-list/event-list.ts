@@ -46,6 +46,13 @@ export class EventListPage {
     });
   }
 
+  getUser(event) {
+    if (!event.mine)
+      this.navCtrl.push('ProfilePage', event.creatorData);
+    else
+      this.navCtrl.push('ProfilePage');
+  }
+
   getDetails(event) {
     this.navCtrl.push('EventDetailsPage', event);
   }

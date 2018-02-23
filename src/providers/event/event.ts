@@ -89,4 +89,36 @@ export class EventProvider {
       });
   }
 
+  getEventsAttends(id:Number): Observable<IEvent[]> {
+    return this.http.get(Constants.SERVER + "users/attend/"+id)
+      .catch((error: HttpErrorResponse) => Observable.throw(`Error trying to get events. Server returned ${error.message}`))
+      .map((resp: IResponse) => {
+        resp.result.forEach((event: any) => {
+          event.eventData.image = Constants.imageUrlEvent + event.eventData.image;
+        });
+        return resp.result;
+      });
+  }
+
+  getEventsCreated(idUser: number): Observable<IEvent[]> {
+    return this.http.get(Constants.SERVER + "events/created/" + idUser)
+      .catch((error: HttpErrorResponse) => Observable.throw(`Error trying to get events. Server returned ${error.message}`))
+      .map((resp: IResponse) => {
+        resp.result.forEach((event: IEvent) => {
+          event.image = Constants.imageUrlEvent + event.image;
+        });
+        return resp.result;
+      });
+  }
+
+  removeEvent(id: number): Observable<boolean> {
+    return this.http.delete(Constants.SERVER + "events/" + id)
+      .catch((error: HttpErrorResponse) => Observable.throw(`Error trying to get events. Server returned ${error.message}`))
+      .map((resp: IResponse) => {
+        if (!resp.error) {
+          return true;
+        }
+        throw resp.errorMessage;
+      });
+  }
 }

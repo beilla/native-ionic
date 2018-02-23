@@ -35,9 +35,9 @@ export class InfoPage {
     console.log('ionViewDidLoad InfoPage');
   }
 
-  getUser(userId) {
+  getUser(user) {
     if (!this.event.mine)
-      this.navCtrl.parent.parent.push('ProfilePage', userId);
+      this.navCtrl.parent.parent.push('ProfilePage', user);
     else
       this.navCtrl.parent.parent.push('ProfilePage');
   }

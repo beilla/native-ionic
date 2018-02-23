@@ -1,0 +1,54 @@
+<!--
+  Generated template for the ProfilePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Profile</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+        <ion-card>
+          <img [src]="profile.image">
+          <ion-card-content>
+            <h2>{{profile.name}}</h2>
+            <p>{{profile.email}}</p>
+          </ion-card-content>
+          <ion-row>
+            <ion-col>
+             <!--  <button ion-button color="secondary" (click)="editProfile()">edit Profile</button> -->
+            </ion-col>
+          </ion-row>
+          <!-- <agm-map [latitude]="profile.lat" [longitude]="profile.lng" [zoom]="17">
+            <agm-marker [latitude]="profile.lat" [longitude]="profile.lng">
+            </agm-marker>
+          </agm-map> -->
+        </ion-card>
+
+        <!-- <ion-list>
+          <ion-item *ngFor="let event of eventsCreated" (tap)="goDetail(event.eventData)">
+            <ion-thumbnail item-start>
+              <img [src]="event.image">
+            </ion-thumbnail>
+            <h2>{{event.eventData.title}}</h2>
+            <p>{{event.eventData.description}}</p>
+          </ion-item>
+        </ion-list>
+
+        <ion-list>
+          <ion-item *ngFor="let event of eventsAttend" (tap)="goDetail(event.eventData)">
+            <ion-thumbnail item-start>
+              <img [src]="event.eventData.image">
+            </ion-thumbnail>
+            <h2>{{event.eventData.title}}</h2>
+            <p>{{event.eventData.description}}</p>
+          </ion-item>
+        </ion-list> -->
+</ion-content>
