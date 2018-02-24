@@ -14,10 +14,11 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { EventProvider } from '../providers/event/event';
 import { UserProvider } from '../providers/user/user';
 import { Camera } from '@ionic-native/camera';
+import { GmapsAutocompleteDirective } from '../providers/gmaps-autocomplete.directive';
 
 @NgModule({
   declarations: [
-    MyApp,
+    MyApp
   ],
   imports: [
     BrowserModule,
@@ -42,7 +43,8 @@ import { Camera } from '@ionic-native/camera';
     Geolocation,
     EventProvider,
     UserProvider,
-    Camera
+    Camera,
+    GmapsAutocompleteDirective
   ]
 })
 export class AppModule {}

@@ -2,12 +2,10 @@ import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { NewEventPage } from './new-event';
 import { AgmCoreModule } from '@agm/core';
-import { GmapsAutocompleteDirective } from '../../providers/gmaps-autocomplete.directive';
 
 @NgModule({
   declarations: [
-    NewEventPage,
-    GmapsAutocompleteDirective
+    NewEventPage
   ],
   imports: [
     IonicPageModule.forChild(NewEventPage),

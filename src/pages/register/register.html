@@ -14,50 +14,57 @@
 
 
 <ion-content padding>
-    <ion-list>
-        <ion-item>
-          <ion-label floating>Name</ion-label>
-          <ion-input type="text" [(ngModel)]="user.name"></ion-input>
-        </ion-item>
+  <ion-list>
+    <ion-item>
+      <ion-label floating>Name</ion-label>
+      <ion-input type="text" [(ngModel)]="user.name" name="name"></ion-input>
+    </ion-item>
 
-        <ion-item>
-          <ion-label floating>Email</ion-label>
-          <ion-input type="text" [(ngModel)]="user.email"></ion-input>
-        </ion-item>
+    <ion-item>
+      <ion-label floating>Email</ion-label>
+      <ion-input type="text" [(ngModel)]="user.email" name="email"></ion-input>
+    </ion-item>
 
-        <ion-item>
-          <ion-label floating>Password</ion-label>
-          <ion-input type="password" [(ngModel)]="user.password"></ion-input>
-        </ion-item>
+    <ion-item>
+      <ion-label floating>{{ edit ? 'Write if change password' : 'Password'}}</ion-label>
+      <ion-input type="password" [(ngModel)]="user.password" name="password"></ion-input>
+    </ion-item>
 
-        <ion-item>
-            <ion-label floating>Repeat password</ion-label>
-            <ion-input type="password2" [(ngModel)]="user.password2"></ion-input>
-          </ion-item>
+    <ion-item>
+      <ion-label floating>{{ edit ? 'Repeat new password' : 'Repeat password'}}</ion-label>
+      <ion-input type="password" [(ngModel)]="user.password2" name="password2"></ion-input>
+    </ion-item>
 
-        <ion-col>
-            <ion-item>
-                <h2>Picture</h2>
-                <button ion-button icon-left large color="primary" (click)="takePhoto()">
-                  <ion-icon name="camera"></ion-icon>Take picture</button>
-              </ion-item>
-        </ion-col>
+    <ion-row>
+      <ion-col>
+        <button ion-button block color="dark" (tap)="takePhoto()">
+          <ion-icon name="camera"></ion-icon>&nbsp;Take picture</button>
+      </ion-col>
 
-        <ion-col>
-            <ion-item>
-                <h2>Picture</h2>
-                <button ion-button large color="secondary" (click)="pickFromGallery()">
-                  <ion-icon name="camera"></ion-icon>Pick picture</button>
-              </ion-item>
-        </ion-col>
+      <ion-col>
+        <button ion-button block color="light" (tap)="pickFromGallery()">
+          <ion-icon name="camera"></ion-icon>&nbsp;Pick picture</button>
+      </ion-col>
+    </ion-row>
 
-        <ion-item>
-          <h2>Show image</h2>
-         <div><img [src]="user.image" alt=""></div>
-        </ion-item>
+    <ion-item>
+      <h2>Actual image</h2>
+      <div>
+        <img [src]="actualimage" alt="">
+      </div>
+    </ion-item>
 
-        <ion-item>
-            <button ion-button block (click)="register()">Register</button>
-        </ion-item>
-      </ion-list>
+    <ion-item>
+      <h2>Show new image</h2>
+      <div>
+        <img [src]="user.image" alt="">
+      </div>
+    </ion-item>
+
+    <ion-row>
+      <ion-col>
+        <button ion-button block (tap)="register()">{{ edit ? 'Edit' : 'Register'}}</button>
+      </ion-col>
+    </ion-row>
+  </ion-list>
 </ion-content>

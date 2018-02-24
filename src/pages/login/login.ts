@@ -43,11 +43,10 @@ export class LoginPage {
     this.geolocation.getCurrentPosition().then((resp) => {
       this.user.lat = resp.coords.latitude;
       this.user.lng = resp.coords.longitude;
-      // console.log(this.user.lat,this.user.lng);
+      console.log(this.user.lat,this.user.lng);
     }).catch((error) => {
        console.log('Error getting location', error);
     });
-
   }
 
   login() {

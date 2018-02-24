@@ -29,18 +29,21 @@
 
   </p>
   <ion-row>
-      <ion-col>
-        <button ion-button block color="warning" (click)="login()" [disabled]="isLogged">Login</button>
-      </ion-col>
-      <ion-col>
-          <button ion-button block color="secondary" (click)="register()" [disabled]="isLogged">Register</button>
-        </ion-col>
-      <ion-col>
-        <button ion-button block color="danger" outline (click)="logout()" [disabled]="!isLogged">Logout</button>
-      </ion-col>
-    </ion-row>
-    <button ion-button block color="primary" (click)="disconnect()" [disabled]="!isLogged">Disconnect account</button>
+    <ion-col>
+      <button ion-button block color="primary" (click)="login()">Login</button>
+    </ion-col>
+    <ion-col>
+      <button ion-button block color="secondary" (click)="register()">Register</button>
+    </ion-col>
+  </ion-row>
+  <!-- <ion-row>
+    <ion-col>
+      <button ion-button block color="danger" outline (click)="logout()" [disabled]="!isLogged">Logout</button>
+    </ion-col>
+    <ion-col>
+      <button ion-button block color="danger" outline (click)="logout()" [disabled]="!isLogged">Logout</button>
+    </ion-col>
+  </ion-row>
 
-
-    <div *ngIf="isLogged">{{response | json}}</div>
+  <div *ngIf="isLogged">{{response | json}}</div> -->
 </ion-content>

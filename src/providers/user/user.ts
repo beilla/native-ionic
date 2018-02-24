@@ -24,6 +24,8 @@ export class UserProvider {
       .map((user: IResponse) => {
         if (!user.error) {
           user.result[0].image = Constants.imageUrlUser + user.result[0].image;
+          user.result[0].lat = +user.result[0].lat;
+          user.result[0].lng = +user.result[0].lng;
           return user.result[0];
         }
         throw user.errorMessage;
@@ -36,7 +38,20 @@ export class UserProvider {
       .map((user: IResponse) => {
         if (!user.error) {
           user.result[0].image = Constants.imageUrlUser + user.result[0].image;
+          user.result[0].lat = +user.result[0].lat;
+          user.result[0].lng = +user.result[0].lng;
           return user.result[0];
+        }
+        throw user.errorMessage;
+      });
+  }
+
+  updateProfile(user: IUser): Observable<IUser> {
+    return this.http.put(Constants.SERVER + "users/"+ user.id, user)
+      .catch(error => Observable.throw("Error trying to update user. Detail: " + error))
+      .map((user: IResponse) => {
+        if (!user.error) {
+          return user.result;
         }
         throw user.errorMessage;
       });

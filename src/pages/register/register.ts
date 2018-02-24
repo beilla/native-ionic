@@ -4,6 +4,7 @@ import { IUser } from '../../interfaces/i-user';
 import { AuthProvider } from '../../providers/auth/auth';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Camera, CameraOptions } from '@ionic-native/camera';
+import { UserProvider } from '../../providers/user/user';
 
 /**
  * Generated class for the RegisterPage page.
@@ -20,6 +21,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 export class RegisterPage {
   cameraImage: any;
   user: IUser ={
+    id:-1,
     name: '',
     email: '',
     password: '',
@@ -28,9 +30,22 @@ export class RegisterPage {
     lat: 38,
     lng: 0
   };
+  edit:boolean;
+  actualImage:any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private authService: AuthProvider,
-    private alertCtrl: AlertController, private geolocation: Geolocation, private camera: Camera) {
+    private alertCtrl: AlertController, private geolocation: Geolocation, private camera: Camera,
+    private userService: UserProvider) {
+      this.edit=false;
+      if (this.navParams.data.email) {
+        this.user = this.navParams.data;
+        this.user.password="";
+        this.edit=true;
+      }else{
+        this.edit=false;
+      }
+      this.actualImage= this.user.image;
+      this.user.image="";
   }
 
   ionViewDidLoad() {
@@ -45,21 +60,41 @@ export class RegisterPage {
     }).catch((error) => {
        console.log('Error getting location', error);
     });
-
   }
 
   register() {
-    if (this.user.password == this.user.password2){
-      this.authService.register(this.user).subscribe(
-        response => this.navCtrl.setRoot('EventListPage'),
-        (error) => this.showErrorRegister(error));
+    if(this.edit){
+      if(this.user.password!=""){
+        if (this.user.password == this.user.password2){
+          this.userService.updateProfile(this.user).subscribe(
+            response => this.navCtrl.setRoot('ProfilePage'),
+            (error) => this.showErrorRegister(error));
+        }else{
+          let alert = this.alertCtrl.create({
+            title: 'Password error',
+            subTitle: 'Passwords don´t match',
+            buttons: ['Ok']
+          });
+          alert.present();
+        }
+      }else{
+        this.userService.updateProfile(this.user).subscribe(
+          response => this.navCtrl.setRoot('ProfilePage'),
+          (error) => this.showErrorRegister(error));
+      }
     }else{
-      let alert = this.alertCtrl.create({
-        title: 'Password error',
-        subTitle: 'Passwords don´t match',
-        buttons: ['Ok']
-      });
-      alert.present();
+      if (this.user.password == this.user.password2){
+        this.authService.register(this.user).subscribe(
+          response => this.navCtrl.setRoot('LoginPage'),
+          (error) => this.showErrorRegister(error));
+      }else{
+        let alert = this.alertCtrl.create({
+          title: 'Password error',
+          subTitle: 'Passwords don´t match',
+          buttons: ['Ok']
+        });
+        alert.present();
+      }
     }
   }
 

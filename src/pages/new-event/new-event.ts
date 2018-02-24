@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams, ActionSheetController, AlertContro
 import { IEvent } from '../../interfaces/i-event';
 import { EventProvider } from '../../providers/event/event';
 import { Camera, CameraOptions } from '@ionic-native/camera';
-
+import { GmapsAutocompleteDirective } from '../../providers/gmaps-autocomplete.directive';
 
 /**
  * Generated class for the NewEventPage page.
@@ -42,11 +42,12 @@ export class NewEventPage {
     console.log('ionViewDidLoad NewEventPage');
   }
 
-  changePosition( position: google.maps.LatLng) {
-    this.event.lat = position.lat();
-    this.event.lng = position.lng();
+  changePosition( place: google.maps.places.PlaceResult) {
+    // console.log(place);
+    this.event.lat = place.geometry.location.lat();
+    this.event.lng = place.geometry.location.lng();
+    this.event.address = place.formatted_address;
   }
-
 
   create() {
     console.log(this.event);

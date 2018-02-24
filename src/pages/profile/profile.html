@@ -7,48 +7,74 @@
 <ion-header>
 
   <ion-navbar>
+      <button ion-button menuToggle left>
+          <ion-icon name="menu"></ion-icon>
+        </button>
     <ion-title>Profile</ion-title>
   </ion-navbar>
 
+  <ion-toolbar>
+      <ion-segment [(ngModel)]="profilesviews">
+          <ion-segment-button value="profile">
+              <ion-icon name="contact"></ion-icon>
+            </ion-segment-button>
+          <ion-segment-button value="eventscreated">
+              <ion-icon name="filing"></ion-icon>
+          </ion-segment-button>
+          <ion-segment-button value="eventsattend">
+              <ion-icon name="people"></ion-icon>
+          </ion-segment-button>
+        </ion-segment>
+  </ion-toolbar>
 </ion-header>
 
 
 <ion-content padding>
-
-        <ion-card>
+    <div [ngSwitch]="profilesviews">
+        <ion-card *ngSwitchCase="'profile'">
           <img [src]="profile.image">
           <ion-card-content>
-            <h2>{{profile.name}}</h2>
-            <p>{{profile.email}}</p>
+            <ion-row>
+              <ion-col left>
+                  <h2>{{profile.name}}</h2>
+                  <p>{{profile.email}}</p>
+              </ion-col>
+              <ion-col right>
+                  <button ion-button color="secondary" *ngIf="me" (click)="goRegister(profile)">Edit Profile</button>
+                </ion-col>
+            </ion-row>
           </ion-card-content>
-          <ion-row>
-            <ion-col>
-             <!--  <button ion-button color="secondary" (click)="editProfile()">edit Profile</button> -->
-            </ion-col>
-          </ion-row>
-          <!-- <agm-map [latitude]="profile.lat" [longitude]="profile.lng" [zoom]="17">
+
+          <agm-map [latitude]="profile.lat" [longitude]="profile.lng" [zoom]="17">
             <agm-marker [latitude]="profile.lat" [longitude]="profile.lng">
             </agm-marker>
-          </agm-map> -->
+          </agm-map>
         </ion-card>
 
-        <!-- <ion-list>
-          <ion-item *ngFor="let event of eventsCreated" (tap)="goDetail(event.eventData)">
-            <ion-thumbnail item-start>
-              <img [src]="event.image">
-            </ion-thumbnail>
-            <h2>{{event.eventData.title}}</h2>
-            <p>{{event.eventData.description}}</p>
-          </ion-item>
-        </ion-list>
+        <div *ngSwitchCase="'eventscreated'">
+            <ion-title>Events Created</ion-title>
+            <ion-list>
+              <ion-item *ngFor="let eventCreated of eventsCreated" (tap)="goDetail(eventCreated)">
+                <ion-thumbnail item-start>
+                  <img [src]="eventCreated.image">
+                </ion-thumbnail>
+                <h2>{{eventCreated.title}}</h2>
+                <p>{{eventCreated.description}}</p>
+              </ion-item>
+            </ion-list>
+        </div>
 
-        <ion-list>
-          <ion-item *ngFor="let event of eventsAttend" (tap)="goDetail(event.eventData)">
-            <ion-thumbnail item-start>
-              <img [src]="event.eventData.image">
-            </ion-thumbnail>
-            <h2>{{event.eventData.title}}</h2>
-            <p>{{event.eventData.description}}</p>
-          </ion-item>
-        </ion-list> -->
+        <div *ngSwitchCase="'eventsattend'">
+            <ion-title>Events Attends</ion-title>
+            <ion-list>
+              <ion-item *ngFor="let eventAttend of eventsAttend" (tap)="goDetail(event.eventData)">
+                <ion-thumbnail item-start>
+                  <img [src]="eventAttend.eventData.image">
+                </ion-thumbnail>
+                <h2>{{eventAttend.eventData.title}}</h2>
+                <p>{{eventAttend.eventData.description}}</p>
+              </ion-item>
+            </ion-list>
+        </div>
+      </div>
 </ion-content>

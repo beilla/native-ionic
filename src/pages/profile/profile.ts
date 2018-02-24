@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { IUser } from '../../interfaces/i-user';
 import { EventProvider } from '../../providers/event/event';
 import { UserProvider } from '../../providers/user/user';
+import { IEvent } from '../../interfaces/i-event';
 
 /**
  * Generated class for the ProfilePage page.
@@ -17,16 +18,8 @@ import { UserProvider } from '../../providers/user/user';
   templateUrl: 'profile.html',
 })
 export class ProfilePage {
-
-  user:IUser={
-    name: "",
-    email: "",
-    password: "",
-    image: "",
-    lat: 0,
-    lng: 0
-  };
   profile:IUser={
+    id:-1,
     name: "",
     email: "",
     password: "",
@@ -35,25 +28,38 @@ export class ProfilePage {
     lng: 0
   };
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, eventService: EventProvider,
+  eventsAttend: IEvent[];
+  eventsCreated: IEvent[];
+  me: boolean;
+  profilesviews:string;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, private eventService: EventProvider,
    private userService: UserProvider) {
+     this.me=false;
+     this.profilesviews='profile';
     if (this.navParams.data.email) {
+      this.me=false;
       this.profile = this.navParams.data;
+      this.getEvents(this.profile.id);
     } else {
+        this.me=true;
         this.userService.getMe().subscribe( (user) =>{
           this.profile = user;
           console.log(user);
-          /* this.profile.image = Environment.imageUrlUser + this.profile.image;
-          this.eventService.getEventsAttends(this.profile.id).subscribe(
-            events => this.eventsAttend = events
-          );
-
-          this.eventService.getEventsCreated(this.profile.id).subscribe(
-            events => this.eventsCreated = events
-          ); */
+          this.getEvents(this.profile.id);
       });
     }
+  }
 
+  getEvents(id){
+    this.eventService.getEventsAttends(id).subscribe( eventsattend =>{
+      this.eventsAttend = eventsattend;
+      console.log('attend',eventsattend);
+    });
+    this.eventService.getEventsCreated(id).subscribe( eventscreated =>{
+      this.eventsCreated = eventscreated;
+      console.log('created',eventscreated);
+    });
   }
 
   ionViewDidLoad() {
@@ -62,6 +68,16 @@ export class ProfilePage {
       this.profile = result;
       console.log(result);
   }); */
+  }
+
+  goDetail(event: any) {
+    console.log(event);
+    this.navCtrl.push("EventDetailPage", event);
+  }
+
+  goRegister(profile: any) {
+    console.log(profile);
+    this.navCtrl.push("RegisterPage", profile);
   }
 
 }

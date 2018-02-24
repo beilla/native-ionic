@@ -89,8 +89,8 @@ export class EventProvider {
       });
   }
 
-  getEventsAttends(id:Number): Observable<IEvent[]> {
-    return this.http.get(Constants.SERVER + "users/attend/"+id)
+  getEventsAttends(idUser:Number): Observable<IEvent[]> {
+    return this.http.get(Constants.SERVER + "users/attend/"+idUser)
       .catch((error: HttpErrorResponse) => Observable.throw(`Error trying to get events. Server returned ${error.message}`))
       .map((resp: IResponse) => {
         resp.result.forEach((event: any) => {
