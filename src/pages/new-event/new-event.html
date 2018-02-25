@@ -10,7 +10,7 @@
     <button ion-button menuToggle left>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>newEvent</ion-title>
+    <ion-title>New Event</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -39,21 +39,17 @@
       <ion-input type="number" [(ngModel)]="event.price" name="price" step="0.01" min="0.01" value="0"></ion-input>
     </ion-item>
 
-    <ion-col>
-      <ion-item>
-        <h2>Picture</h2>
-        <button ion-button icon-left large color="secondary" (click)="takePhoto()">
-          <ion-icon name="camera"></ion-icon>Take picture</button>
-      </ion-item>
-    </ion-col>
+    <ion-row>
+      <ion-col>
+        <button ion-button block color="dark" (tap)="takePhoto()">
+          <ion-icon name="camera"></ion-icon>&nbsp;Take picture</button>
+      </ion-col>
 
-    <ion-col>
-      <ion-item>
-        <h2>Picture</h2>
-        <button ion-button icon-left large color="secondary" (click)="pickFromGallery()">
-          <ion-icon name="camera"></ion-icon>Pick picture</button>
-      </ion-item>
-    </ion-col>
+      <ion-col>
+        <button ion-button block color="light" (tap)="pickFromGallery()">
+          <ion-icon name="camera"></ion-icon>&nbsp;Pick picture</button>
+      </ion-col>
+    </ion-row>
 
     <ion-item>
       <h2>Show image</h2>
@@ -64,19 +60,20 @@
 
     <ion-item>
       <ion-label floating>Address</ion-label>
-      <ion-input type="text" [(ngModel)]="event.address" name="address" aeGmapsAutocomplete
-      (placeChanged)="changePosition($event)"></ion-input>
+      <ion-input type="text" [(ngModel)]="event.address" name="address" aeGmapsAutocomplete (placeChanged)="changePosition($event)"></ion-input>
     </ion-item>
 
     <ion-item>
-      <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
-        <agm-marker [latitude]="lat" [longitude]="lng">
+      <agm-map [latitude]="event.lat" [longitude]="event.lng" [zoom]="zoom">
+        <agm-marker [latitude]="event.lat" [longitude]="event.lng">
         </agm-marker>
       </agm-map>
     </ion-item>
 
-    <ion-item>
-      <button ion-button block (click)="create()">Add Event</button>
-    </ion-item>
+    <ion-row>
+      <ion-col>
+          <button ion-button block (click)="create()">Add Event</button>
+      </ion-col>
+    </ion-row>
   </ion-list>
 </ion-content>

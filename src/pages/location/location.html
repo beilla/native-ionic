@@ -10,18 +10,24 @@
       <button ion-button menuToggle left>
           <ion-icon name="menu"></ion-icon>
         </button>
-    <ion-title>location</ion-title>
+    <ion-title>Location</ion-title>
+    <ion-buttons end>
+        <ion-title>
+          <button ion-button block (tap)="goBack()">Go back</button>
+        </ion-title>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
 
 <ion-content padding>
-
         <ion-label>{{event.address}}</ion-label>
 
-
-        <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
-          <agm-marker [latitude]="lat" [longitude]="lng">
+        <agm-map [latitude]="event.lat" [longitude]="event.lng" [zoom]="zoom">
+          <agm-marker [latitude]="event.lat" [longitude]="event.lng">
           </agm-marker>
         </agm-map>
+        <div>
+            <button ion-button block (tap)="goBack()">Go back</button>
+          </div>
 </ion-content>

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { EventProvider } from '../../providers/event/event';
 import { IEvent } from '../../interfaces/i-event';
+import { AuthProvider } from '../../providers/auth/auth';
 
 /**
  * Generated class for the AttendPage page.
@@ -29,9 +30,18 @@ export class AttendPage {
   users: any[];
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    private eventsService: EventProvider, private alertCtrl: AlertController,) {
+    private eventsService: EventProvider, private alertCtrl: AlertController,
+    public authService: AuthProvider) {
       console.log(this.navParams.data);
       this.event = this.navParams.data;
+  }
+
+  ionViewCanEnter() {
+    this.authService.isLogged()
+      .subscribe((ok) => {
+        if(!ok){
+          this.navCtrl.setRoot('LoginPage')}
+        });
   }
 
   ionViewDidLoad() {

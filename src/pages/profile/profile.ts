@@ -4,6 +4,7 @@ import { IUser } from '../../interfaces/i-user';
 import { EventProvider } from '../../providers/event/event';
 import { UserProvider } from '../../providers/user/user';
 import { IEvent } from '../../interfaces/i-event';
+import { AuthProvider } from '../../providers/auth/auth';
 
 /**
  * Generated class for the ProfilePage page.
@@ -34,7 +35,7 @@ export class ProfilePage {
   profilesviews:string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private eventService: EventProvider,
-   private userService: UserProvider) {
+   private userService: UserProvider, public authService: AuthProvider) {
      this.me=false;
      this.profilesviews='profile';
     if (this.navParams.data.email) {
@@ -60,6 +61,14 @@ export class ProfilePage {
       this.eventsCreated = eventscreated;
       console.log('created',eventscreated);
     });
+  }
+
+  ionViewCanEnter() {
+    this.authService.isLogged()
+      .subscribe((ok) => {
+        if(!ok){
+          this.navCtrl.setRoot('LoginPage')}
+        });
   }
 
   ionViewDidLoad() {

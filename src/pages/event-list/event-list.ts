@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, Refresher } from 'ionic-angular';
 import { EventProvider } from '../../providers/event/event';
 import { IEvent } from '../../interfaces/i-event';
+import { AuthProvider } from '../../providers/auth/auth';
 
 /**
  * Generated class for the EventListPage page.
@@ -16,34 +17,57 @@ import { IEvent } from '../../interfaces/i-event';
   templateUrl: 'event-list.html',
 })
 export class EventListPage {
-  events: IEvent[];
-
+  events: IEvent[] = [];
+  n: number = 0;
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    private eventService: EventProvider) {
+    private eventService: EventProvider, public authService: AuthProvider) {
+  }
+
+  ionViewCanEnter() {
+    this.authService.isLogged()
+      .subscribe((ok) => {
+        if (!ok) {
+          this.navCtrl.setRoot('LoginPage')
+        }
+      });
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad EventListPage');
+    this.getEvents().subscribe(response => {
+      this.events.push(...response);
+    });
   }
 
-
   ionViewDidEnter() {
-    this.getEvents();
+
   }
 
   refreshItems(refresher: Refresher) {
-    this.getEvents();
-    refresher.complete();
+    this.eventService.getEvents(0).subscribe(response => {
+      this.events = response;
+      this.n = 1;
+    },
+      () => refresher.complete()
+    );
+
+  }
+
+  doInfinite(infiniteScroll) {
+    this.n += 8;
+    this.getEvents().subscribe(
+      response => this.events.push(...response),
+      (error)=>infiniteScroll.complete(),
+      () => infiniteScroll.complete()
+    );
+  }
+
+  getEvents() {
+    return this.eventService.getEvents(this.n);
   }
 
   newEvent() {
     this.navCtrl.push('NewEventPage');
-  }
-
-    getEvents() {
-    this.eventService.getEvents().subscribe( response => {
-      this.events = response;
-    });
   }
 
   getUser(event) {

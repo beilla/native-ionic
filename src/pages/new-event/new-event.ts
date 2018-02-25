@@ -4,6 +4,8 @@ import { IEvent } from '../../interfaces/i-event';
 import { EventProvider } from '../../providers/event/event';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { GmapsAutocompleteDirective } from '../../providers/gmaps-autocomplete.directive';
+import { Geolocation } from '@ionic-native/geolocation';
+import { AuthProvider } from '../../providers/auth/auth';
 
 /**
  * Generated class for the NewEventPage page.
@@ -34,12 +36,30 @@ export class NewEventPage {
   zoom = 17;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    private eventService: EventProvider, private alertCtrl: AlertController,
-    private actionSheetCtrl: ActionSheetController, private camera: Camera) {
+    private eventService: EventProvider, private alertCtrl: AlertController, public authService: AuthProvider,
+    private actionSheetCtrl: ActionSheetController, private camera: Camera, private geolocation: Geolocation) {
+  }
+
+  ionViewCanEnter() {
+    this.authService.isLogged()
+      .subscribe((ok) => {
+        if(!ok){
+          this.navCtrl.setRoot('LoginPage')}
+        });
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad NewEventPage');
+  }
+
+  ionViewWillLoad() {
+    this.geolocation.getCurrentPosition().then((resp) => {
+      this.event.lat = resp.coords.latitude;
+      this.event.lng = resp.coords.longitude;
+       console.log(this.event.lat,this.event.lng);
+    }).catch((error) => {
+       console.log('Error getting location', error);
+    });
   }
 
   changePosition( place: google.maps.places.PlaceResult) {

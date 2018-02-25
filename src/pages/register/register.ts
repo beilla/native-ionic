@@ -48,6 +48,14 @@ export class RegisterPage {
       this.user.image="";
   }
 
+  /* ionViewCanEnter() {
+    this.authService.isLogged()
+      .subscribe((error) => {
+        if(error){
+          this.navCtrl.setRoot('LoginPage')}
+        });
+  } */
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad RegisterPage');
   }
@@ -100,7 +108,7 @@ export class RegisterPage {
 
   private showErrorRegister(error) {
     let alert = this.alertCtrl.create({
-      title: 'Login error',
+      title: 'Register error',
       subTitle: error,
       buttons: ['Ok']
     });

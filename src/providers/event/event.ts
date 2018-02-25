@@ -35,9 +35,9 @@ export class EventProvider {
       });
   }
 
-  getEvents(): Observable<IEvent[]> {
+  getEvents(n: number): Observable<IEvent[]> {
     return this.http
-      .get(Constants.SERVER + 'events')
+      .get(Constants.SERVER + 'events/' + n)
       .catch((resp: HttpErrorResponse) =>
         Observable.throw(
           'Error getting events!' +
@@ -45,6 +45,7 @@ export class EventProvider {
         )
       )
       .map((resp: IResponse) => {
+        if (!resp.error) {
          resp.result.map((event: IEvent) => {
           event.image = Constants.imageUrlEvent+ `${event.image}`;
           event.creatorData.image = Constants.imageUrlUser+`${event.creatorData.image}`;
@@ -54,7 +55,9 @@ export class EventProvider {
           event.creatorData.lng = +event.creatorData.lng;
         });
         return resp.result;
-      });
+      }
+      throw resp.errorMessage;
+    });
   }
 
   getEvent(id: number): Observable<IEvent> {
@@ -67,10 +70,13 @@ export class EventProvider {
         )
       )
       .map((resp: IResponse) => {
+        if (!resp.error) {
         resp.result.image =  Constants.imageUrlEvent+`${resp.result.image}`;
         resp.result.creatorData.image = Constants.imageUrlUser+`${resp.result.creatorData.image}`;
         return resp.result;
-      });
+      }
+      throw resp.errorMessage;
+    });
   }
 
   getAttendsEventUser(id: number): Observable<IUser[]> {

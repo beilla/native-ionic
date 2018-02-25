@@ -59,7 +59,7 @@ export class AuthProvider {
   }
 
 
-  isLogged(): Observable<boolean> {
+  /* isLogged(): Observable<boolean> {
     return Observable.create((observer: Observer<any>) => {
 
       this.storage.get('token').then(token => {
@@ -80,7 +80,20 @@ export class AuthProvider {
           );
       });
     });
-  }
+  } */
+
+  isLogged(): Observable<boolean> {
+    return Observable.fromPromise(this.storage.get('token'))
+    .flatMap(token => {
+        if (!token) return Observable.of(false);
+        return this.http
+        .get(Constants.SERVER +'auth/token')
+        .map((resp: IResponse) => (resp.error ? false : true))
+        .catch(error => Observable.of(false));
+    }).catch(error => {
+        return Observable.of(false);
+    });
+}
 
   register(user: IUser): Observable<boolean> {
     return this.http

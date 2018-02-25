@@ -12,7 +12,6 @@
         </button>
     <ion-title>Events List</ion-title>
   </ion-navbar>
-
 </ion-header>
 
 
@@ -24,7 +23,7 @@
       <button ion-button block (click)="newEvent()">New event</button>
       <ion-card *ngFor="let event of events">
         <img [src]="event.image" (tap)="getDetails(event)"/>
-        <ion-card-content (tap)="getDetails()">
+        <ion-card-content (tap)="getDetails(event)">
           <ion-card-title text-center>
            {{event.title}}
             </ion-card-title>
@@ -39,4 +38,8 @@
           <h2>{{event.creatorData.name}}</h2>
         </ion-item>
       </ion-card>
+
+      <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+          <ion-infinite-scroll-content></ion-infinite-scroll-content>
+        </ion-infinite-scroll>
 </ion-content>

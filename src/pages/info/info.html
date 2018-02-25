@@ -10,7 +10,7 @@
     <button ion-button menuToggle left>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>info</ion-title>
+    <ion-title>Info</ion-title>
     <ion-buttons end>
       <ion-title>
         <button ion-button block (tap)="goBack()">Go back</button>
@@ -32,7 +32,16 @@
       <p text-center>
         {{event.description}}
       </p>
-
+      <div *ngIf="event.creatorData.id==user.id">
+        <ion-row>
+          <ion-col>
+              <button ion-button block (tap)="Edit()">Edit</button>
+          </ion-col>
+          <ion-col>
+              <button ion-button color="danger" block (tap)="delete()">Delete</button>
+          </ion-col>
+        </ion-row>
+      </div>
     </ion-card-content>
     <ion-item (tap)="getUser(event.creatorData)">
       <ion-avatar item-start>
