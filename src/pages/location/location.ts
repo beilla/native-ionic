@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { IEvent } from '../../interfaces/i-event';
 import { AgmCoreModule } from '@agm/core';
 import { AuthProvider } from '../../providers/auth/auth';
+import { LaunchNavigator } from '@ionic-native/launch-navigator';
 
 /**
  * Generated class for the LocationPage page.
@@ -31,7 +32,8 @@ export class LocationPage {
   lng = 0;
   zoom = 17;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public authService: AuthProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public authService: AuthProvider,
+    private launchNavigator: LaunchNavigator) {
     this.event=this.navParams.data;
   }
 
@@ -47,6 +49,11 @@ export class LocationPage {
     console.log('ionViewDidLoad LocationPage');
     this.lat = this.event.lat;
     this.lng = this.event.lng;
+  }
+
+  laumchNavigation(){
+    this.launchNavigator.navigate([this.event.lat, this.event.lng], {}).then(ok =>
+      console.log("Navigation ok!"));
   }
 
   goBack() {

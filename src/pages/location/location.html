@@ -27,7 +27,10 @@
           <agm-marker [latitude]="event.lat" [longitude]="event.lng">
           </agm-marker>
         </agm-map>
+        <ion-row>
+          <button ion-button block color="dark" (tap)="launchNavigation()"><ion-icon name="ios-navigate"></ion-icon></button>
+        </ion-row>
         <div>
-            <button ion-button block (tap)="goBack()">Go back</button>
-          </div>
+          <button ion-button block (tap)="goBack()">Go back</button>
+        </div>
 </ion-content>
